@@ -33,6 +33,10 @@ class Field(object):
         x, y = coords
         return self._map[y][x] #y goes before x because while parsing map
                               #rows are processed before columns
+    def refresh(self):
+        for x in range(FIELD_H):
+            for y in range(FIELD_W):
+                self
 
 
 class Cell(object):
@@ -50,14 +54,31 @@ class Cell(object):
         """Set new value to cell"""
         self._value = val
 
-    def distance(self, to):
+    def distance(self, cell):
         """Distance from cell to target"""
-        if to.__class__ == Cell:
-            x, y = to.x, to.y
+        if cell.__class__ == Cell:
+            x, y = cell.x, cell.y
         else:
-            x, y = to
+            x, y = cell
 
         return math.sqrt((self.x - float(x))**2 + (self.y - float(y))**2)
+
+    def get_direction_to (self, cell):
+        x, y = cell.x, cell.y
+        x -= self.x
+        y -= self.y
+
+        if x == -1:
+            return LEFT
+
+        elif x == 1:
+            return RIGHT
+
+        elif y == -1:
+            return UP
+
+        elif y == 1:
+            return DOWN
 
 #####################
 # CONSTANTS SECTION #
@@ -73,3 +94,6 @@ UP    = 'u'
 RIGHT = 'r'
 DOWN  = 'd'
 LEFT  = 'l'
+
+FIELD_W = 8
+FIELD_H = 8
